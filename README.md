@@ -4,7 +4,7 @@
 
 This project demonstrates a production-grade high-availability web architecture using AWS Application Load Balancer, EC2 instances, and Infrastructure as Code with Terraform.
 
-**Status:** 🚧 In Progress
+**Status:** ✅ Complete - Deployed and Tested
 
 ---
 
@@ -20,6 +20,17 @@ This project demonstrates a production-grade high-availability web architecture 
    eu-west-1a                  eu-west-1b
    10.0.1.x                    10.0.2.x
 ```
+## 🌐 Live Demo
+
+**Load Balancer URL:** `http://[your-actual-url].elb.amazonaws.com`
+
+> Replace with your actual URL from terraform outputs
+
+**Test it:**
+- Visit the URL in your browser
+- Refresh multiple times to see different servers respond
+- Each refresh may show a different instance ID
+
 
 **Key Features:**
 - ✅ High availability across 2 availability zones
@@ -117,11 +128,6 @@ terraform output website_url
 3. Wait for health checks to fail
 4. Load balancer stops sending traffic to that instance
 
----
-
-## 📸 Screenshots
-
-> Screenshots will be added after deployment
 
 **Planned screenshots:**
 1. Terraform apply success
@@ -130,6 +136,124 @@ terraform output website_url
 4. Target group health checks
 5. Website showing different servers
 6. High availability test results
+
+## 📸 Screenshots
+
+### 1. Terraform Deployment
+
+**Terraform Init & Apply:**
+
+![Terraform Init](screenshots/Week%208%20Screenshots/01-terraform-init.png)
+
+*Screenshot showing: `terraform init` command completing successfully with provider downloads*
+
+---
+
+![Terraform Plan](screenshots/Week%208%20Screenshots/02-terraform-plan.png)
+
+*Screenshot showing: `terraform plan` output with resources to be created*
+
+---
+
+![Terraform Apply Success](screenshots/Week%208%20Screenshots/03-terraform-apply-success.png)
+
+*Screenshot showing: `terraform apply` completion with "Apply complete! Resources: XX added"*
+
+---
+
+![Terraform Outputs](screenshots/Week%208%20Screenshots/04-terraform-outputs.png)
+
+*Screenshot showing: Load balancer URL and other outputs displayed*
+
+---
+
+### 2. AWS Infrastructure
+
+**EC2 Instances Running:**
+
+![EC2 Instances](screenshots/Week%208%20Screenshots/05-ec2-instances.png)
+
+*Screenshot showing: Both EC2 instances running in different availability zones*
+
+---
+
+**Application Load Balancer:**
+
+![Load Balancer](screenshots/Week%208%20Screenshots/06-load-balancer.png)
+
+*Screenshot showing: ALB in active state with DNS name visible*
+
+---
+
+**Target Group with Health Checks:**
+
+![Target Group Healthy](screenshots/Week%208%20Screenshots/07-target-group-healthy.png)
+
+*Screenshot showing: Both targets healthy with green checkmarks*
+
+---
+
+### 3. Website Testing
+
+**Server 1 Response:**
+
+![Website Server 1](screenshots/Week%208%20Screenshots/08-website-server-1.png)
+
+*Screenshot showing: Website displaying Server 1 information (instance ID, zone, IP)*
+
+---
+
+**Server 2 Response:**
+
+![Website Server 2](screenshots/Week%208%20Screenshots/09-website-server-2.png)
+
+*Screenshot showing: Website displaying Server 2 information (different instance ID)*
+
+---
+
+### 4. High Availability Testing
+
+**Stopping One Instance:**
+
+![Stop Instance](screenshots/Week%208%20Screenshots/10-stop-instance.png)
+
+*Screenshot showing: Stopping one EC2 instance in AWS Console*
+
+---
+
+**Target Group After Failure:**
+
+![Target Unhealthy](screenshots/Week%208%20Screenshots/11-target-unhealthy.png)
+
+*Screenshot showing: One target unhealthy (red), one healthy (green)*
+
+---
+
+**Website Still Working:**
+
+![Website Still Working](screenshots/Week%208%20Screenshots/12-website-still-working.png)
+
+*Screenshot showing: Website still accessible despite one server down*
+
+---
+
+### 5. Infrastructure Details
+
+**VPC Configuration:**
+
+![VPC Details](screenshots/Week%208%20Screenshots/13-vpc-details.png)
+
+*Screenshot showing: VPC with subnets in different availability zones*
+
+---
+
+**Security Groups:**
+
+![Security Groups](screenshots/Week%208%20Screenshots/14-security-groups.png)
+
+*Screenshot showing: Security group rules for web servers and load balancer*
+
+---
 
 ---
 

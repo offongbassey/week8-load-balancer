@@ -9,7 +9,7 @@ INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 AVAILABILITY_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
 PRIVATE_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
 
-cat > /var/www/html/index.html <<EOF
+cat > /var/www/html/index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,15 +53,15 @@ cat > /var/www/html/index.html <<EOF
         <h1>🚀 Week 8: Load Balancer is Working! 🚀</h1>
         
         <div class="info-box">
-            <p><span class="label">Instance ID:</span> ${INSTANCE_ID}</p>
+            <p><span class="label">Instance ID:</span> <span id="instance-id"></span></p>
         </div>
         
         <div class="info-box">
-            <p><span class="label">Availability Zone:</span> ${AVAILABILITY_ZONE}</p>
+            <p><span class="label">Availability Zone:</span> <span id="az"></span></p>
         </div>
         
         <div class="info-box">
-            <p><span class="label">Private IP:</span> ${PRIVATE_IP}</p>
+            <p><span class="label">Private IP:</span> <span id="ip"></span></p>
         </div>
         
         <div class="info-box">
@@ -72,9 +72,34 @@ cat > /var/www/html/index.html <<EOF
             Refresh the page to see different servers respond!
         </p>
     </div>
+    
+    <script>
+        // Fetch server info from a metadata endpoint we'll create
+        fetch('/server-info.txt')
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n');
+                document.getElementById('instance-id').textContent = lines[0] || 'Loading...';
+                document.getElementById('az').textContent = lines[1] || 'Loading...';
+                document.getElementById('ip').textContent = lines[2] || 'Loading...';
+            })
+            .catch(() => {
+                document.getElementById('instance-id').textContent = 'Error loading';
+                document.getElementById('az').textContent = 'Error loading';
+                document.getElementById('ip').textContent = 'Error loading';
+            });
+    </script>
 </body>
 </html>
 EOF
 
+# Create a separate file with server info
+cat > /var/www/html/server-info.txt <<EOF
+$INSTANCE_ID
+$AVAILABILITY_ZONE
+$PRIVATE_IP
+EOF
+
 chmod 644 /var/www/html/index.html
+chmod 644 /var/www/html/server-info.txt
 systemctl restart apache2
